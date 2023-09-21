@@ -92,7 +92,8 @@ class DOTADataset(CustomDataset):
                        nproc=4,
                        save_dir=None,
                        **kwargs):
-        nproc = min(nproc, os.cpu_count())
+        # nproc = min(nproc, os.cpu_count())
+        nproc = 1
         task = self.task
         if mmcv.is_list_of(results, tuple):
             dets, segments = results

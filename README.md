@@ -1,147 +1,130 @@
-# OBBDetection
+# Adaptive Rotated Convolution for Rotated Object Detection (ICCV 2023)
 
-**note**: If you have questions or good suggestions, feel free to propose issues and contact me.
 
-## introduction
+Authors: [Yifan Pu](https://github.com/yifanpu001/)\*, [Yiru Wang](https://scholar.google.com/citations?user=Ug87_McAAAAJ&hl=zh-CN)\*, [Zhuofan Xia](https://github.com/Vladimir2506/)\, [Yizeng Han](https://yizenghan.top/), [Yulin Wang](https://www.wyl.cool/), Weihao Gan, Zidong Wang, [Shiji Song](https://scholar.google.com/citations?user=rw6vWdcAAAAJ&hl=en), [Gao Huang](http://www.gaohuang.net/)\#.
 
-OBBDetection is an oriented object detection toolbox modified from [MMdetection v2.2](https://github.com/open-mmlab/mmdetection).
+*: Equal contribution, #: Corresponding author.
 
-![demo image](demo/obbdet_show.jpg)
+## Introduction
 
-### Major features
+This is the official implementation of the paper, *[Adaptive Rotated Convolution for Rotated Object Detection](https://arxiv.org/abs/2303.07820)* (ICCV 2023). This paper presents a novel adaptive rotation convolutional operation to capture orientation information of objects in images. It enhances the performance of rotated object detectors and achieves high efficiency in rotated object detection scenarios.
 
-- **MMdetection feature inheritance**
 
-  OBBDetection doesn't change the structure and codes of original MMdetection and the additive codes are under MMdetection logic. Therefore, our OBBDetection inherits all features from MMdetection.
+### Motivation
 
-- **Support of multiple frameworks out of box**
+<div align="center">
+  <img src="./figs/motivation.png" width="40%"/>
+</div>
 
-  We implement multiple oriented object detectors in this toolbox (*e.g.* RoI Transformer, Gliding Vertex). Attributing to moudlar design of MMdetection, Many parts of detectors (*e.g.* backbone, RPN, sampler and assigner) have multiple options.
+### Rotate the convolution kernels
 
-- **Flexible representation of oriented boxes**
+<div align="center">
+  <img src="./figs/rotate.png" width="80%"/>
+</div>
 
-  Horizontal bounding boxes (HBB), oriented bounding boxes (OBB) and 4 point boxes (POLY) are supported in this toolbox. The program will confirm the type of bounding box by the tensor shape or the default setting.
+### Overall method
 
-We develop [BboxToolkit](https://github.com/jbwang1997/BboxToolkit) to support oriented bounding boxes operations, which is heavily depended on by this toolbox.
-
-## License
-
-This project is released under the [Apache 2.0 license](LICENSE).
-
-## Update
-
-- (**2022-03-15**) Support oriented mask. Open source [Oriented R-CNN and Beyond](configs/obb/oriented_rcnn_beyond).
-- (**2021-12-14**) Thanks [liuyanyi](https://github.com/liuyanyi) for reimplementing [S2ANet](configs/obb/s2anet) in OBBDetection.
-- (**2021-11-29**) Discard mmcv-0.6.2 and support mmcv-full.
-- (**2021-09-18**) Implement [Double Head OBB](configs/obb/double_heads_obb) in the OBBDetection.
-- (**2021-09-01**) Implement [FCOS OBB](configs/obb/fcos_obb) in the OBBDetection.
-- (**2021-08-21**) Reimplement the [PolyIoULoss](configs/obb/poly_iou_loss).
-
-## Benchmark and model zoo
-
-Results and models are available in the [model zoo](docs/model_zoo.md).
-
-Supported backbones:
-- [x] ResNet
-- [x] ResNeXt
-- [x] VGG
-- [x] HRNet
-- [x] RegNet
-- [x] Res2Net
-
-Supported oriented detection methods:
-- [x] [S2ANet (TGRS)](configs/obb/s2anet)
-- [x] [Oriented R-CNN (ICCV'2021)](configs/obb/oriented_rcnn)
-- [x] [Oriented R-CNN and Beyond](configs/obb/oriented_rcnn_beyond)
-- [x] [Poly IoU Loss](configs/obb/poly_iou_loss)
-- [x] [Faster R-CNN OBB](configs/obb/faster_rcnn_obb)
-- [x] [Double Head OBB](configs/obb/double_heads_obb)
-- [x] [RetinaNet OBB](configs/obb/retinanet_obb)
-- [x] [Gliding Vertex](configs/obb/gliding_vertex)
-- [x] [RoI Transformer](configs/obb/roi_transformer)
-- [x] [FCOS OBB](configs/obb/fcos_obb)
-
-Supported horizontal detection methods:
-- [x] [RPN](configs/rpn)
-- [x] [Fast R-CNN](configs/fast_rcnn)
-- [x] [Faster R-CNN](configs/faster_rcnn)
-- [x] [Mask R-CNN](configs/mask_rcnn)
-- [x] [Cascade R-CNN](configs/cascade_rcnn)
-- [x] [Cascade Mask R-CNN](configs/cascade_rcnn)
-- [x] [SSD](configs/ssd)
-- [x] [RetinaNet](configs/retinanet)
-- [x] [GHM](configs/ghm)
-- [x] [Mask Scoring R-CNN](configs/ms_rcnn)
-- [x] [Double-Head R-CNN](configs/double_heads)
-- [x] [Hybrid Task Cascade](configs/htc)
-- [x] [Libra R-CNN](configs/libra_rcnn)
-- [x] [Guided Anchoring](configs/guided_anchoring)
-- [x] [FCOS](configs/fcos)
-- [x] [RepPoints](configs/reppoints)
-- [x] [Foveabox](configs/foveabox)
-- [x] [FreeAnchor](configs/free_anchor)
-- [x] [NAS-FPN](configs/nas_fpn)
-- [x] [ATSS](configs/atss)
-- [x] [FSAF](configs/fsaf)
-- [x] [PAFPN](configs/pafpn)
-- [x] [Dynamic R-CNN](configs/dynamic_rcnn)
-- [x] [PointRend](configs/point_rend)
-- [x] [CARAFE](configs/carafe/README.md)
-- [x] [DCNv2](configs/dcn/README.md)
-- [x] [Group Normalization](configs/gn/README.md)
-- [x] [Weight Standardization](configs/gn+ws/README.md)
-- [x] [OHEM](configs/faster_rcnn/faster_rcnn_r50_fpn_ohem_1x_coco.py)
-- [x] [Soft-NMS](configs/faster_rcnn/faster_rcnn_r50_fpn_soft_nms_1x_coco.py)
-- [x] [Generalized Attention](configs/empirical_attention/README.md)
-- [x] [GCNet](configs/gcnet/README.md)
-- [x] [Mixed Precision (FP16) Training](configs/fp16/README.md)
-- [x] [InstaBoost](configs/instaboost/README.md)
-- [x] [GRoIE](configs/groie/README.md)
-- [x] [DetectoRS](configs/detectors/README.md)
-- [x] [Generalized Focal Loss](configs/gfl/README.md)
-
-## Installation
-
-Please refer to [install.md](docs/install.md) for installation and dataset preparation.
+<div align="center">
+  <img src="./figs/module.png" width="80%"/>
+</div>
 
 ## Get Started
+(1) Prepare environment
 
-### Oriented models training and testing
+```shell
+# create environment
+conda create -n arc python=3.7 -y
+conda activate arc
 
-If you want to train or test a oriented model, please refer to [oriented_model_starting.md](docs/oriented_model_starting.md).
+# install pytorch and torchvision
+pip install torch==1.7.0+cu110 torchvision==0.8.1+cu110 -f https://download.pytorch.org/whl/torch_stable.html
 
-### How to use MMDetection
+# clone this codebase, including submodule
+git clone https://github.com/LeapLabTHU/ARC.git --recursive
 
-If you are not familiar with MMdetection, please see [getting_started.md](docs/getting_started.md) for the basic usage of MMDetection. There are also tutorials for [finetuning models](docs/tutorials/finetune.md), [adding new dataset](docs/tutorials/new_dataset.md), [designing data pipeline](docs/tutorials/data_pipeline.md), and [adding new modules](docs/tutorials/new_modules.md).
+# install submodule
+cd BboxToolkit
+pip install -v -e .
+cd ..
+
+# install mmcv
+pip install mmcv-full==1.3.9 -f https://download.openmmlab.com/mmcv/dist/cu110/torch1.7.0/index.html
+
+# install other requirements
+pip install -r requirements/build.txt
+pip install mmpycocotools
+pip install einops
+
+# install this codebase
+pip install -v -e .
+```
+
+(2) Prepare data
+
+Download the DOTA dataset from [official website](https://captain-whu.github.io/DOTA/dataset.html), 
+change the diretory in ```./BboxToolkit/tools/split_configs/dota1_0/ss_trainval.json``` and ```./BboxToolkit/tools/split_configs/dota1_0/ss_test.json```,
+and then run the following script
+
+```shell
+cd ./BboxToolkit/tools/
+python img_split.py --base_json split_configs/dota1_0/ss_trainval.json
+python img_split.py --base_json split_configs/dota1_0/ss_test.json
+```
+
+(3) Download the pretrained backbone
+
+Download the pretrained ARC-ResNet from [TsinghuaCloud](https://cloud.tsinghua.edu.cn/d/46177201209d4d2a827b/) or [GoogleDrive](https://drive.google.com/drive/folders/1ObJYPpD4oFPudGhCnLI5ZsBrLbkpdLRY?usp=drive_link), then put it in ```./pretrained/```.
+
+(4) Change data path
+
+In the file ./configs/obb/_base_/datasets/dota.py, change the data path following ```data_root``` to ```YOUR_DATA_PATH```.
+
+
+## Usage
+
+### Training
+
+```
+# train a Oriented R-CNN model with ARC-ResNet50 backbone
+python tools/train.py configs/obb/arc/arc_orcnn_r50fpn1x_ss_dota10_RxFFF_n4.py;
+
+# train a Oriented R-CNN model with ARC-ResNet101 backbone
+python tools/train.py configs/obb/arc/arc_orcnn_r101fpn1x_ss_dota10_RxFFF_n4.py;
+```
+
+### Testing
+```
+python tools/test.py configs/obb/arc/arc_orcnn_r50fpn1x_ss_dota10_RxFFF_n4.py \
+YOUR_CHECKPOINT_PATH --format-only --options save_dir=YOUR_SAVE_DIR;
+
+python tools/test.py configs/obb/arc/arc_orcnn_r101fpn1x_ss_dota10_RxFFF_n4.py \
+YOUR_CHECKPOINT_PATH --format-only --options save_dir=YOUR_SAVE_DIR;
+```
+
+We provide the pretrained models as listed below.
+
+| Detector  | Backbone | box AP<br />(in paper) | box AP<br />(this repo) | pretrained model |
+| :---: | :---: | :---: | :---: | :---: |
+| Oriented R-CNN | ARC-ResNet50  | 77.35 | 77.42 | [TsinghuaCloud](https://cloud.tsinghua.edu.cn/f/c46ce99d2c594d759fcb/?dl=1) / [GoogleDrive](https://drive.google.com/file/d/10pSdHXCpRMpkuyFWYxhpLJjZ4L_0qdo2/view?usp=drive_link) |
+| Oriented R-CNN | ARC-ResNet101 | 77.70 | 77.75 | [TsinghuaCloud](https://cloud.tsinghua.edu.cn/f/8cd70d10248540b280ee/?dl=1) / [GoogleDrive](https://drive.google.com/file/d/1CkM_AbutSSDAfdqzDV3emdiZrOqC-jfX/view?usp=drive_link) |
+
 
 ## Acknowledgement
 
-We refered [S2ANet](https://github.com/csuhan/s2anet) and [AerialDetection](https://github.com/dingjiansw101/AerialDetection) when develping OBBDetection.
+This code is developed on the top of [OBBDetection](https://github.com/jbwang1997/OBBDetection), we thank to their efficient and neat codebase.
 
-This toolbox is modified from [MMdetection](https://github.com/open-mmlab/mmdetection). If you use this toolbox or benchmark in your research, please cite the following information.
+## Citation
+
+If you find our work is useful in your research, please consider citing:
 
 ```
-@article{mmdetection,
-  title   = {{MMDetection}: Open MMLab Detection Toolbox and Benchmark},
-  author  = {Chen, Kai and Wang, Jiaqi and Pang, Jiangmiao and Cao, Yuhang and
-             Xiong, Yu and Li, Xiaoxiao and Sun, Shuyang and Feng, Wansen and
-             Liu, Ziwei and Xu, Jiarui and Zhang, Zheng and Cheng, Dazhi and
-             Zhu, Chenchen and Cheng, Tianheng and Zhao, Qijie and Li, Buyu and
-             Lu, Xin and Zhu, Rui and Wu, Yue and Dai, Jifeng and Wang, Jingdong
-             and Shi, Jianping and Ouyang, Wanli and Loy, Chen Change and Lin, Dahua},
-  journal = {arXiv preprint arXiv:1906.07155},
-  year={2019}
+@InProceedings{pu2023adaptive,
+  title     = {Adaptive Rotated Convolution for Rotated Object Detection},
+  author    = {Pu, Yifan and Wang, Yiru and Xia, Zhuofan and Han, Yizeng and Wang, Yulin and Gan, Weihao and Wang, Zidong and Song, Shiji and Huang, Gao},
+  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+  year      = {2023}
 }
 ```
 
-This is the official implement of [Oriented R-CNN](configs/obb/oriented_rcnn). if it is used in your research, please cite the following information.
-
-```
-@InProceedings{Xie_2021_ICCV,
-  author = {Xie, Xingxing and Cheng, Gong and Wang, Jiabao and Yao, Xiwen and Han, Junwei},
-  title = {Oriented R-CNN for Object Detection},
-  booktitle = {Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
-  month = {October},
-  year = {2021},
-  pages = {3520-3529} }
-```
+## Contact
+If you have any questions or concerns, please send email to [pyf20@mails.tsinghua.edu.cn](mailto:pyf20@mails.tsinghua.edu.cn).
