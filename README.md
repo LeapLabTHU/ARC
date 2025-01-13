@@ -52,6 +52,7 @@ pip install mmcv-full==1.3.9 -f https://download.openmmlab.com/mmcv/dist/cu110/t
 
 # install other requirements
 pip install -r requirements/build.txt
+pip install cython==0.29.33
 pip install mmpycocotools
 pip install einops
 
